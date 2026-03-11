@@ -78,7 +78,7 @@ if st.button("🚀 بدء التحليل بالذكاء الاصطناعي", use
                 اكتب التقرير باللغة العربية بأسلوب احترافي وعلمي.
                 """
 
-                model = genai.GenerativeModel(model_name="gemini-1.5-pro")
+                model = genai.GenerativeModel(model_name="gemini-1.5-flash")
                 response = model.generate_content([video_file, prompt])
 
                 st.markdown("---")
@@ -91,3 +91,4 @@ if st.button("🚀 بدء التحليل بالذكاء الاصطناعي", use
 
             except Exception as e:
                 st.error(f"حدث خطأ أثناء الاتصال بالذكاء الاصطناعي: {e}")
+
