@@ -4,14 +4,14 @@ import tempfile
 import os
 import time
 
-# إعدادات الصفحة (بدون أكواد تصميم معقدة لتجنب الشاشة البيضاء)
+# إعدادات الصفحة
 st.set_page_config(page_title="المحلل الذكي للوثب العالي", page_icon="🧠", layout="wide")
 
 st.title("🧠 المحلل الذكي للوثب العالي (AI Coach)")
 st.markdown("يستخدم هذا النظام شبكات عصبية عميقة لتحليل فيديو القفزة آلياً واكتشاف الأخطاء الميكانيكية.")
 st.markdown("---")
 
-# إعداد مفتاح الذكاء الاصطناعي API (مباشرة في الواجهة الرئيسية)
+# إعداد مفتاح الذكاء الاصطناعي API
 api_key = st.text_input("🔑 أدخل مفتاح Google Gemini API الخاص بك هنا:", type="password")
 if api_key:
     genai.configure(api_key=api_key)
@@ -26,9 +26,6 @@ with col1:
     gender = st.selectbox("الجنس:", ["ذكر", "أنثى"])
     height = st.number_input("الطول الكلي (سم):", min_value=140, max_value=240, value=185)
     weight = st.number_input("الوزن (كجم):", min_value=40, max_value=120, value=75)
-    
-    com_multiplier = 0.565 if gender == "ذكر" else 0.545
-    com = round(height * com_multiplier, 1)
 
 with col2:
     st.header("🎥 رفع الفيديو للتحليل الآلي")
@@ -59,7 +56,6 @@ if st.button("🚀 بدء التحليل بالذكاء الاصطناعي", use
                     time.sleep(2)
                     video_file = genai.get_file(video_file.name)
 
-                # توجيه الذكاء الاصطناعي
                 prompt = f"""
                 أنت خبير عالمي في التحليل البيوميكانيكي والتدريب الرياضي الاحترافي، متخصص في رياضة الوثب العالي.
                 شاهد هذا الفيديو بتمعن للاعب يقوم بالوثب.
@@ -69,16 +65,17 @@ if st.button("🚀 بدء التحليل بالذكاء الاصطناعي", use
                 - الوزن: {weight} كجم
                 
                 المطلوب منك:
-                1. قم بتحليل مرحلة الاقتراب (هل القوس سليم؟ هل هناك فقدان للسرعة؟).
-                2. قم بتحليل مرحلة الارتقاء (زاوية غرس القدم، حركة الذراعين والركبة الحرة).
-                3. قم بتحليل مرحلة الطيران وتخطي العارضة (توقيت التقوس، سحب الساقين).
+                1. قم بتحليل مرحلة الاقتراب.
+                2. قم بتحليل مرحلة الارتقاء.
+                3. قم بتحليل مرحلة الطيران وتخطي العارضة.
                 4. حدد الخطأ الميكانيكي الرئيسي.
                 5. اكتب برنامجاً تصحيحياً دقيقاً يتضمن تمارين لمعالجة هذا الخطأ.
                 
                 اكتب التقرير باللغة العربية بأسلوب احترافي وعلمي.
                 """
 
-                model = genai.GenerativeModel(model_name="gemini-1.5-flash")
+                # التعديل تم هنا باستخدام النسخة الأحدث والمضمونة
+                model = genai.GenerativeModel(model_name="gemini-1.5-flash-latest")
                 response = model.generate_content([video_file, prompt])
 
                 st.markdown("---")
@@ -91,4 +88,3 @@ if st.button("🚀 بدء التحليل بالذكاء الاصطناعي", use
 
             except Exception as e:
                 st.error(f"حدث خطأ أثناء الاتصال بالذكاء الاصطناعي: {e}")
-
